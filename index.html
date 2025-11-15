@@ -1,119 +1,177 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Why Not? Skate Shop</title>
 
 <style>
-body {
+/* ============================================================
+   GLOBAL
+============================================================ */
+:root {
+    --neon: #00ff9d;
+    --bg: #000000;
+    --card: #0c0c0c;
+}
+
+* {
     margin: 0;
-    background: #000;
-    color: #fff;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--bg);
+    color: white;
     font-family: Arial;
 }
 
+/* ============================================================
+   HEADER
+============================================================ */
 header {
-    background: #00ff9d;
-    padding: 15px;
+    background: var(--neon);
+    color: black;
+    padding: 20px;
     text-align: center;
-    font-size: 26px;
+    font-size: 32px;
     font-weight: bold;
-    color: #000;
+    letter-spacing: 1px;
+    box-shadow: 0 0 20px var(--neon);
 }
 
+/* ============================================================
+   GRADE DE PRODUTOS
+============================================================ */
 .products {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 20px;
-    padding: 20px;
+    gap: 30px;
+    padding: 30px;
 }
 
 .product {
-    background: #111;
-    border: 2px solid #00ff9d;
-    padding: 15px;
-    border-radius: 10px;
+    background: var(--card);
+    border: 2px solid var(--neon);
+    border-radius: 12px;
+    padding: 20px;
+    transition: 0.3s;
     text-align: center;
+    box-shadow: 0 0 10px #00ff9d50;
+}
+
+.product:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 0 20px var(--neon);
 }
 
 .product img {
     width: 100%;
-    border-radius: 8px;
+    border-radius: 10px;
+    margin-bottom: 12px;
 }
 
+/* ============================================================
+   BOTÕES
+============================================================ */
 button {
-    background: #00ff9d;
+    background: var(--neon);
+    color: #000;
     border: none;
     padding: 12px;
     width: 100%;
+    border-radius: 8px;
     cursor: pointer;
-    border-radius: 6px;
-    font-weight: bold;
     margin-top: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: 0.2s;
 }
 
-/* Botão ir para o carrinho */
+button:hover {
+    filter: brightness(1.2);
+    transform: scale(1.03);
+}
+
+/* ============================================================
+   BOTÃO FLUTUANTE
+============================================================ */
 #goCart {
     position: fixed;
-    bottom: 25px;
-    right: 25px;
-    background: #00ff9d;
-    border-radius: 50px;
-    padding: 15px 25px;
-    color: #000;
+    bottom: 30px;
+    right: 30px;
+    background: var(--neon);
+    padding: 15px 30px;
+    color: black;
     font-weight: bold;
+    border-radius: 50px;
+    font-size: 18px;
     text-decoration: none;
+    box-shadow: 0 0 20px var(--neon);
+    transition: 0.2s;
+}
+
+#goCart:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 30px var(--neon);
 }
 </style>
 </head>
 
 <body>
 
-<header>Why Not? Skate Shop</header>
+<header>WHY NOT? SKATE SHOP</header>
 
 <div class="products">
+
     <div class="product">
-        <img src="https://via.placeholder.com/300x200" />
-        <h3>Shape Maple Wood Light</h3>
+        <img src="https://via.placeholder.com/300x200">
+        <h2>Shape Maple Wood Light</h2>
         <p>R$ 279.90</p>
         <button onclick="addToCart('Shape Maple Wood Light', 279.90)">Adicionar ao Carrinho</button>
     </div>
 
     <div class="product">
-        <img src="https://via.placeholder.com/300x200" />
-        <h3>Rolamento Red Bones</h3>
+        <img src="https://via.placeholder.com/300x200">
+        <h2>Rolamento Red Bones</h2>
         <p>R$ 150.00</p>
         <button onclick="addToCart('Rolamento Red Bones', 150.00)">Adicionar ao Carrinho</button>
     </div>
 
     <div class="product">
-        <img src="https://via.placeholder.com/300x200" />
-        <h3>Lixa Importada Adesiva</h3>
+        <img src="https://via.placeholder.com/300x200">
+        <h2>Lixa Importada Premium</h2>
         <p>R$ 49.90</p>
-        <button onclick="addToCart('Lixa Importada Adesiva', 49.90)">Adicionar ao Carrinho</button>
+        <button onclick="addToCart('Lixa Importada Premium', 49.90)">Adicionar ao Carrinho</button>
     </div>
+
 </div>
 
-<!-- Botão que leva ao carrinho -->
-<a id="goCart" href="cart.html">🛒 Carrinho</a>
+<a href="cart.html" id="goCart">🛒 Carrinho</a>
 
 <script>
+/* ============================================================
+   SISTEMA DE CARRINHO
+============================================================ */
+
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-/* Adiciona ao carrinho */
 function addToCart(name, price) {
-    let item = cart.find(i => i.name === name);
 
-    if (item) {
-        item.quantity++;
+    let existing = cart.find(item => item.name === name);
+
+    if (existing) {
+        existing.quantity++;
     } else {
         cart.push({ name, price, quantity: 1 });
     }
 
     localStorage.setItem("cart", JSON.stringify(cart));
-    alert("Produto adicionado com sucesso!");
+
+    alert("Produto adicionado ao carrinho!");
 }
 </script>
+
 </body>
 </html>
