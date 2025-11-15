@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Carrinho – Why Not</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #000;
+    color: white;
+}
+
+header {
+    background: #00ff9d;
+    padding: 15px;
+    color: #000;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.cart-container {
+    padding: 20px;
+}
+
+.cart-item {
+    background: #111;
+    border: 2px solid #00ff9d;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+button {
+    background: #00ff9d;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    cursor: pointer;
+    border-radius: 6px;
+    font-weight: bold;
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+#back {
+    background: transparent;
+    border: 2px solid #00ff9d;
+    color: #00ff9d;
+    margin-bottom: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<header>Seu Carrinho</header>
+
+<div class="cart-container">
+
+    <button id="back" onclick="window.location.href='index.html'">⬅ Voltar para Loja</button>
+
+    <div id="cartItems"></div>
+
+    <h2>Total: R$ <span id="totalValue">0.00</span></h2>
+
+    <button onclick="sendToWhatsApp()">Enviar Pedido no WhatsApp</button>
+
+</div>
+
+<script>
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+function loadCart() {
+    let container = document.getElementById("cartItems");
+    container.innerHTML = "";
+
+    let total = 0;
+
+    cart.forEach(item => {
+        total += item.price * item.quantity;
+        container.innerHTML += `
+            <div class="cart-item">
+                <h3>${item.name}</h3>
+                <p>Quantidade: ${item.quantity}</p>
+                <p>Subtotal: R$ ${(item.price * item.quantity).toFixed(2)}</p>
+            </div>
+        `;
+    });
+
+    document.getElementById("totalValue").innerText = total.toFixed(2);
+}
+
+function sendToWhatsApp() {
+    let phone = "5554981312500";
+    let msg = "🛒 *Pedido - Why Not Skate Shop*%0A%0A";
+
+    cart.forEach(item => {
+        msg += `• ${item.name} (x${item.quantity}) - R$ ${(item.price * item.quantity).toFixed(2)}%0A`;
+    });
+
+    let total = cart.reduce((s, i) => s + i.price * i.quantity, 0);
+    msg += `%0A💰 *Total:* R$ ${total.toFixed(2)}%0A`;
+
+    msg += "%0A📍 Agora envie seus dados de entrega:";
+
+    window.open(`https://wa.me/${phone}?text=${msg}`, "_blank");
+}
+
+loadCart();
+</script>
+
+</body>
+</html>
